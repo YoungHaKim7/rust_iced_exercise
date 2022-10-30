@@ -15,4 +15,9 @@ https://github.com/iced-rs/iced
 https://iced.rs/
 
 <br>
+
 # rust_iced_exercise
+
+- Rust Iced crate.io * Hello World & 한글러스트Rust강의\_045⭐️Rust*시계만들기GUI clock / #rustlang #helix #iced
+
+https://youtu.be/4mcliazb6No
