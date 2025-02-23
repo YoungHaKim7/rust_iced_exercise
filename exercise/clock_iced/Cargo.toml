@@ -1,0 +1,9 @@
+[package]
+name = "clock_iced"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = "0.4.39"
+iced = { version = "0.13.1", features = ["canvas", "tokio", "debug"] }
+tracing-subscriber = "0.3.19"
