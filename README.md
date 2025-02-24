@@ -12,7 +12,9 @@ https://github.com/iced-rs/iced
 
 # iced.rs
 
-https://iced.rs/
+- https://iced.rs/
+- eBook
+  - https://book.iced.rs/index.html
 
 <hr />
 
