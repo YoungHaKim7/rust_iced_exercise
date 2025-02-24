@@ -14,7 +14,14 @@ https://github.com/iced-rs/iced
 
 https://iced.rs/
 
+<hr />
+
+# iced runtime이해
+- https://docs.rs/iced_runtime/latest/iced_runtime/
+
 <br>
+
+
 
 # rust_iced_exercise
 
