@@ -31,3 +31,6 @@ incremental = false
 opt-level = 3
 overflow-checks = false
 strip = "debuginfo"
+
+[dependencies]
+iced = "0.13.1"
