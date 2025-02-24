@@ -1,0 +1,33 @@
+[package]
+name = "counter"
+version.workspace = true
+edition.workspace = true
+
+[workspace.package]
+# name = "counter"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+members = [
+    "iced_test",
+    # "renderer",
+    # "runtime",
+]
+
+# resolver = "3"
+
+
+
+[workspace.dependencies]
+
+
+[profile.release-opt]
+inherits = "release"
+codegen-units = 1
+debug = false
+lto = true
+incremental = false
+opt-level = 3
+overflow-checks = false
+strip = "debuginfo"
