@@ -31,6 +31,31 @@ struct State {
     saving: bool,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct Task {
+    #[serde(default = "Uuid::new_v4")]
+    id: Uuid,
+    description: String,
+    completed: bool,
+    #[serde(skip)]
+    state: TaskState,
+}
+
+#[derive(Debug, Clone)]
+pub enum TaskMessage {
+    Completed(bool),
+    Edit,
+    DescriptionEdited(String),
+    FinishEdition,
+    Delete,
+}
+
+#[derive(Debug, Clone)]
+pub enum TaskState {
+    Idle,
+    Editing,
+}
+
 #[derive(Debug, Clone)]
 enum Message {
     Loaded(Result<SavedState, LoadError>),
@@ -41,6 +66,35 @@ enum Message {
     TaskMessage(usize, TaskMessage),
     TabPressed { shift: bool },
     ToggleFullscreen(window::Mode),
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
+pub enum Filter {
+    #[default]
+    All,
+    Active,
+    Completed,
+}
+
+// Persistence
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct SavedState {
+    input_value: String,
+    filter: Filter,
+    tasks: Vec<Task>,
+}
+
+#[derive(Debug, Clone)]
+enum LoadError {
+    File,
+    Format,
+}
+
+#[derive(Debug, Clone)]
+enum SaveError {
+    File,
+    Write,
+    Format,
 }
 
 impl Todos {
@@ -207,35 +261,10 @@ impl Todos {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct Task {
-    #[serde(default = "Uuid::new_v4")]
-    id: Uuid,
-    description: String,
-    completed: bool,
-    #[serde(skip)]
-    state: TaskState,
-}
-
-#[derive(Debug, Clone)]
-pub enum TaskState {
-    Idle,
-    Editing,
-}
-
 impl Default for TaskState {
     fn default() -> Self {
         Self::Idle
     }
-}
-
-#[derive(Debug, Clone)]
-pub enum TaskMessage {
-    Completed(bool),
-    Edit,
-    DescriptionEdited(String),
-    FinishEdition,
-    Delete,
 }
 
 impl Task {
@@ -341,14 +370,6 @@ fn view_controls(tasks: &[Task], current_filter: Filter) -> Element<Message> {
     .into()
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
-pub enum Filter {
-    #[default]
-    All,
-    Active,
-    Completed,
-}
-
 impl Filter {
     fn matches(self, task: &Task) -> bool {
         match self {
@@ -357,52 +378,6 @@ impl Filter {
             Filter::Completed => task.completed,
         }
     }
-}
-
-fn loading_message<'a>() -> Element<'a, Message> {
-    let contents = "Loading...";
-    iced::widget::center(contents).into()
-}
-
-fn empty_message(message: &str) -> Element<'_, Message> {
-    iced::widget::center(message).into()
-}
-
-// Fonts
-fn icon(unicode: char) -> Text<'static> {
-    text(unicode.to_string())
-        .font(Font::with_name("Iced-Todos-Icons"))
-        .width(20)
-        .align_x(Alignment::Center)
-}
-
-fn edit_icon() -> Text<'static> {
-    icon('\u{F303}')
-}
-
-fn delete_icon() -> Text<'static> {
-    icon('\u{F1F8}')
-}
-
-// Persistence
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct SavedState {
-    input_value: String,
-    filter: Filter,
-    tasks: Vec<Task>,
-}
-
-#[derive(Debug, Clone)]
-enum LoadError {
-    File,
-    Format,
-}
-
-#[derive(Debug, Clone)]
-enum SaveError {
-    File,
-    Write,
-    Format,
 }
 
 #[cfg(not(target_arch = "wasm32"))]
@@ -474,6 +449,41 @@ impl SavedState {
     }
 }
 
+fn loading_message<'a>() -> Element<'a, Message> {
+    let contents = "Loading...";
+    iced::widget::center(contents).into()
+}
+
+fn empty_message(message: &str) -> Element<'_, Message> {
+    iced::widget::center(message).into()
+}
+
+// Fonts
+fn icon(unicode: char) -> Text<'static> {
+    text(unicode.to_string())
+        .font(Font::with_name("Iced-Todos-Icons"))
+        .width(20)
+        .align_x(Alignment::Center)
+}
+
+fn edit_icon() -> Text<'static> {
+    icon('\u{F303}')
+}
+
+fn delete_icon() -> Text<'static> {
+    icon('\u{F1F8}')
+}
+
+fn main() -> iced::Result {
+    #[cfg(not(target_arch = "wasm32"))]
+    tracing_subscriber::fmt::init();
+    iced::application(Todos::title, Todos::update, Todos::view)
+        .subscription(Todos::subscription)
+        .font(Todos::ICON_FONT)
+        .window_size((500.0, 800.0))
+        .run_with(Todos::new)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -511,14 +521,4 @@ mod tests {
         );
         Ok(())
     }
-}
-
-fn main() -> iced::Result {
-    #[cfg(not(target_arch = "wasm32"))]
-    tracing_subscriber::fmt::init();
-    iced::application(Todos::title, Todos::update, Todos::view)
-        .subscription(Todos::subscription)
-        .font(Todos::ICON_FONT)
-        .window_size((500.0, 800.0))
-        .run_with(Todos::new)
 }
