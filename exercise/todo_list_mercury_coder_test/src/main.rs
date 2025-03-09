@@ -1,8 +1,6 @@
 use iced::Alignment;
 use iced::keyboard;
-use iced::widget::{
-    self, Text, button, center, checkbox, column, keyed_column, row, scrollable, text, text_input,
-};
+use iced::widget::{Text, button, center, checkbox, column, keyed_column, row, text, text_input};
 use iced::window;
 use iced::{Center, Element, Fill, Font, Subscription, Task as Command};
 use serde::{Deserialize, Serialize};
@@ -54,25 +52,21 @@ impl Todos {
 
     fn update(&mut self, message: Message) -> Command<Message> {
         match self {
-            Todos::Loading => {
-                match message {
-                    Message::Loaded(Ok(state)) => {
-                        *self = Todos::Loaded(State {
-                            input_value: state.input_value,
-                            filter: state.filter,
-                            tasks: state.tasks,
-                            ..State::default()
-                        });
-                    }
-                    Message::Loaded(Err(_)) => {
-                        *self = Todos::Loaded(State::default());
-                    }
-                    _ => {}
+            Todos::Loading => match message {
+                Message::Loaded(Ok(state)) => {
+                    *self = Todos::Loaded(State {
+                        input_value: state.input_value,
+                        filter: state.filter,
+                        tasks: state.tasks,
+                        ..State::default()
+                    });
                 }
-                text_input::focus("new-task")
-            }
+                Message::Loaded(Err(_)) => {
+                    *self = Todos::Loaded(State::default());
+                }
+                _ => {}
+            },
             Todos::Loaded(state) => {
-                let mut saved = false;
                 let command = match message {
                     Message::InputChanged(value) => {
                         state.input_value = value;
@@ -90,64 +84,29 @@ impl Todos {
                         Command::none()
                     }
                     Message::TaskMessage(i, TaskMessage::Delete) => {
-                        state.tasks.remove(i);
+                        if i < state.tasks.len() {
+                            state.tasks.remove(i);
+                        }
                         Command::none()
                     }
                     Message::TaskMessage(i, task_message) => {
                         if let Some(task) = state.tasks.get_mut(i) {
-                            let should_focus = matches!(task_message, TaskMessage::Edit);
                             task.update(task_message);
-                            if should_focus {
-                                let id = Task::text_input_id(i);
-                                Command::batch(vec![
-                                    text_input::focus(id.clone()),
-                                    text_input::select_all(id),
-                                ])
-                            } else {
-                                Command::none()
-                            }
-                        } else {
-                            Command::none()
                         }
-                    }
-                    Message::Saved(_result) => {
-                        state.saving = false;
-                        saved = true;
                         Command::none()
                     }
-                    Message::TabPressed { shift } => {
-                        if shift {
-                            widget::focus_previous()
-                        } else {
-                            widget::focus_next()
-                        }
-                    }
                     Message::ToggleFullscreen(mode) => {
-                        window::get_latest().and_then(move |window| window::get_mode(window))
-                    }
-                    Message::Loaded(_) => Command::none(),
-                };
-                if !saved {
-                    state.dirty = true;
-                }
-                let save = if state.dirty && !state.saving {
-                    state.dirty = false;
-                    state.saving = true;
-                    Command::perform(
-                        SavedState {
-                            input_value: state.input_value.clone(),
-                            filter: state.filter,
-                            tasks: state.tasks.clone(),
+                        if let Some(window) = window::get_latest() {
+                            window::set_mode(window, mode);
                         }
-                        .save(),
-                        Message::Saved,
-                    )
-                } else {
-                    Command::none()
+                        Command::none()
+                    }
+                    _ => Command::none(),
                 };
-                Command::batch(vec![command, save])
+                return command;
             }
         }
+        Command::none()
     }
 
     fn view(&self) -> Element<Message> {
