@@ -1,9 +1,15 @@
+use async_std::fs::{self, File};
+use async_std::io::ReadExt;
 use iced::Alignment;
+use iced::futures::AsyncWriteExt;
 use iced::keyboard;
 use iced::widget::{Text, button, center, checkbox, column, keyed_column, row, text, text_input};
 use iced::window;
+use iced::window::Mode;
 use iced::{Center, Element, Fill, Font, Subscription, Task as Command};
 use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
+use tracing_subscriber;
 use uuid::Uuid;
 
 #[derive(Debug)]
@@ -35,6 +41,7 @@ enum Message {
 
 impl Todos {
     const ICON_FONT: &'static [u8] = include_bytes!("../fonts/icons.ttf");
+
     fn new() -> (Self, Command<Message>) {
         (
             Self::Loading,
@@ -96,9 +103,21 @@ impl Todos {
                         Command::none()
                     }
                     Message::ToggleFullscreen(mode) => {
-                        if let Some(window) = window::get_latest() {
-                            window::set_mode(window, mode);
-                        }
+                        // if let Some(window) = window::get_latest().0 {
+                        // if let Some((window, _)) = window::get_latest() {
+                        //     if mode == Mode::Fullscreen {
+                        //         window.set_fullscreen(true);
+                        //     } else {
+                        //         window.set_fullscreen(false);
+                        //     }
+                        // }
+                        // if let Some(window) = window::get_latest().0 {
+                        //     if mode == Mode::Fullscreen {
+                        //         window.set_fullscreen(true);
+                        //     } else {
+                        //         window.set_fullscreen(false);
+                        //     }
+                        // }
                         Command::none()
                     }
                     _ => Command::none(),
@@ -384,7 +403,7 @@ enum SaveError {
 
 #[cfg(not(target_arch = "wasm32"))]
 impl SavedState {
-    fn path() -> std::path::PathBuf {
+    fn path() -> PathBuf {
         let mut path =
             if let Some(project_dirs) = directories::ProjectDirs::from("rs", "Iced", "Todos") {
                 project_dirs.data_dir().into()
@@ -396,9 +415,8 @@ impl SavedState {
     }
 
     async fn load() -> Result<SavedState, LoadError> {
-        use async_std::prelude::*;
         let mut contents = String::new();
-        let mut file = async_std::fs::File::open(Self::path())
+        let mut file = File::open(Self::path())
             .await
             .map_err(|_| LoadError::File)?;
         file.read_to_string(&mut contents)
@@ -408,18 +426,13 @@ impl SavedState {
     }
 
     async fn save(self) -> Result<(), SaveError> {
-        use async_std::prelude::*;
         let json = serde_json::to_string_pretty(&self).map_err(|_| SaveError::Format)?;
         let path = Self::path();
         if let Some(dir) = path.parent() {
-            async_std::fs::create_dir_all(dir)
-                .await
-                .map_err(|_| SaveError::File)?;
+            fs::create_dir_all(dir).await.map_err(|_| SaveError::File)?;
         }
         {
-            let mut file = async_std::fs::File::create(path)
-                .await
-                .map_err(|_| SaveError::File)?;
+            let mut file = File::create(path).await.map_err(|_| SaveError::File)?;
             file.write_all(json.as_bytes())
                 .await
                 .map_err(|_| SaveError::Write)?;
@@ -452,7 +465,7 @@ impl SavedState {
         storage
             .set_item("state", &json)
             .map_err(|_| SaveError::Write)?;
-        let _ = wasmtimer::tokio::sleep(std::time::Duration::from_secs(2)).await;
+        wasmtimer::tokio::sleep(std::time::Duration::from_secs(2)).await;
         Ok(())
     }
 }
