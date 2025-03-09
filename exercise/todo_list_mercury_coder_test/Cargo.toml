@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-async-std = "1.13.0"
+async-std = { version = "1.13.0", features = ["attributes"] }
 directories = "6.0.0"
 iced = "0.13.1"
 serde = { version = "1.0.218", features = ["derive"] }

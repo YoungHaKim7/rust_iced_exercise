@@ -198,7 +198,7 @@ impl Todos {
                 let content = column![title, input, controls, tasks]
                     .spacing(20)
                     .max_width(800);
-                Center::new(content).into()
+                center(content).into()
             }
         }
     }
@@ -378,25 +378,12 @@ impl Filter {
 }
 
 fn loading_message<'a>() -> Element<'a, Message> {
-    Center::new(
-        text("Loading...")
-            .width(Fill)
-            .align_x(Alignment::Center)
-            .size(50),
-    )
-    .into()
+    let contents = "Loading...";
+    iced::widget::center(contents).into()
 }
 
 fn empty_message(message: &str) -> Element<'_, Message> {
-    Center::new(
-        text(message)
-            .width(Fill)
-            .size(25)
-            .align_x(Alignment::Center)
-            .color([0.7, 0.7, 0.7]),
-    )
-    .height(200)
-    .into()
+    iced::widget::center(message).into()
 }
 
 // Fonts
