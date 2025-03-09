@@ -1,14 +1,18 @@
-use async_std::fs::{self, File};
-use async_std::io::ReadExt;
-use iced::Alignment;
-use iced::futures::AsyncWriteExt;
-use iced::keyboard;
-use iced::widget::{Text, button, center, checkbox, column, keyed_column, row, text, text_input};
-use iced::window;
-use iced::window::Mode;
-use iced::{Center, Element, Fill, Font, Subscription, Task as Command};
+use async_std::{
+    fs::{self, File},
+    io::ReadExt,
+};
+use iced::{
+    Alignment,
+    futures::AsyncWriteExt,
+    keyboard,
+    widget::{Text, button, center, checkbox, column, keyed_column, row, text, text_input},
+    window, {Center, Element, Fill, Font, Subscription, Task as Command},
+};
 use serde::{Deserialize, Serialize};
+
 use std::path::PathBuf;
+
 use tracing_subscriber;
 use uuid::Uuid;
 
