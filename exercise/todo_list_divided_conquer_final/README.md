@@ -17,3 +17,6 @@ I would like to see an example ignored when it has: `#![ cfg(not( target_arch = 
 
 - I tried `package.autoexamples = false + [[target."cfg(not( target_arch = \"wasm32\" ))".example]]` but that failed. It seems that the target selection is specific to dependencies?
  - I managed a workaround with `package.autoexamples = false`, a notwasm feature and using required-features = notwasm in the example section. The downside of this is that users can only run examples with: `cargo run --example basic --features notwasm`, which is unfortunate and also one needs to list all examples in `Cargo.toml`. I suppose this technique could also work with a nightly feature to allow tests to run in stable
+
+# Hey Rustaceans! Got a question? Ask here (16/2023)! 
+- https://www.reddit.com/r/rust/comments/12p5xh4/hey_rustaceans_got_a_question_ask_here_162023/?rdt=45360
