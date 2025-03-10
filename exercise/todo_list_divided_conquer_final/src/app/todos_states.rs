@@ -10,8 +10,8 @@ use super::{
 use iced::{
     Alignment, Element,
     Length::Fill,
-    Subscription, Task as Command, keyboard,
-    widget::{center, keyed_column, text, text_input},
+    Renderer, Subscription, Task as Command, Theme, keyboard,
+    widget::{Text, TextInput, center, keyed_column, text, text_input},
     window,
 };
 
@@ -102,7 +102,7 @@ impl Todos {
         Command::none()
     }
 
-    pub fn view(&self) -> Element<Message> {
+    pub fn view(&self) -> Element<super::message::Message> {
         match self {
             Todos::Loading => loading_message(),
             Todos::Loaded(State {
@@ -111,18 +111,19 @@ impl Todos {
                 tasks,
                 ..
             }) => {
-                let title = text("todos")
+                let title: Text<'_, Theme, Renderer> = text("todos")
                     .width(Fill)
                     .size(100)
                     .color([0.5, 0.5, 0.5])
                     .align_x(Alignment::Center);
-                let input = text_input("What needs to be done?", input_value)
-                    .id("new-task")
-                    .on_input(Message::InputChanged)
-                    .on_submit(Message::CreateTask)
-                    .padding(15)
-                    .size(30)
-                    .align_x(Alignment::Center);
+                let input: TextInput<'_, Message> =
+                    text_input("What needs to be done?", input_value)
+                        .id("new-task")
+                        .on_input(Message::InputChanged)
+                        .on_submit(Message::CreateTask)
+                        .padding(15)
+                        .size(30)
+                        .align_x(Alignment::Center);
                 let controls = view_controls(tasks, *filter);
                 let filtered_tasks = tasks.iter().filter(|task| filter.matches(task));
                 let tasks: Element<_> = if filtered_tasks.count() > 0 {
@@ -147,9 +148,10 @@ impl Todos {
                         Filter::Completed => "You have not completed a task yet...",
                     })
                 };
-                let content = column![title, input, controls, tasks]
-                    .spacing(20)
-                    .max_width(800);
+                let content: iced::widget::Column<'_, Message> =
+                    column![title, input, controls, tasks]
+                        .spacing(20)
+                        .max_width(800);
                 center(content).into()
             }
         }

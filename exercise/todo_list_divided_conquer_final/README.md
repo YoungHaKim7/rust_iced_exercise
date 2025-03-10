@@ -1,5 +1,12 @@
 # Result
 
+
+- nightly backtrace debugging
+
+```bash
+$ RUSTFLAGS="-Zmacro-backtrace" cargo r
+```
+
 - https://github.com/rustwasm/wasm-pack/issues/666
 - https://github.com/rust-lang/cargo/issues/7233
 
