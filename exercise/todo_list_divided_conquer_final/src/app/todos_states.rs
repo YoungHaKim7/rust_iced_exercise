@@ -93,7 +93,7 @@ impl Todos {
                         }
                         Command::none()
                     }
-                    Message::ToggleFullscreen(mode) => Command::none(),
+                    Message::ToggleFullscreen(_mode) => Command::none(),
                     _ => Command::none(),
                 };
                 return command;
