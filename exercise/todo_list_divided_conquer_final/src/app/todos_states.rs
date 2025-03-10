@@ -1,6 +1,17 @@
-use super::{filter::Filter, message::Message, save_states::SavedState, task_states::Task};
+use super::{
+    filter::Filter,
+    global_fn::{loading_message, view_controls},
+    message::Message,
+    save_states::SavedState,
+    task_states::Task,
+};
 
-use iced::{Element, Task as Command};
+use iced::{
+    Alignment, Element,
+    Length::Fill,
+    Task as Command,
+    widget::{keyed_column, text, text_input},
+};
 
 #[derive(Debug)]
 pub enum Todos {
@@ -10,17 +21,17 @@ pub enum Todos {
 
 #[derive(Debug, Default)]
 pub struct State {
-    input_value: String,
-    filter: Filter,
-    tasks: Vec<Task>,
+    pub input_value: String,
+    pub filter: Filter,
+    pub tasks: Vec<Task>,
     dirty: bool,
     saving: bool,
 }
 
 impl Todos {
-    const ICON_FONT: &'static [u8] = include_bytes!("../../assets/fonts/icons.ttf");
+    pub const ICON_FONT: &'static [u8] = include_bytes!("../../assets/fonts/icons.ttf");
 
-    fn new() -> (Self, Command<Message>) {
+    pub fn new() -> (Self, Command<Message>) {
         (
             Self::Loading,
             Command::perform(SavedState::load(), Message::Loaded),

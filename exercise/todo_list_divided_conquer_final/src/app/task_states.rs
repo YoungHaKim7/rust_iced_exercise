@@ -7,7 +7,7 @@ pub struct Task {
     #[serde(default = "Uuid::new_v4")]
     id: Uuid,
     description: String,
-    completed: bool,
+    pub completed: bool,
     #[serde(skip)]
     state: TaskState,
 }
