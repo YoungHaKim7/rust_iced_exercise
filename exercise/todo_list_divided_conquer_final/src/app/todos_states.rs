@@ -1,16 +1,18 @@
 use super::{
     filter::Filter,
-    global_fn::{loading_message, view_controls},
+    global_fn::{empty_message, loading_message, view_controls},
     message::Message,
     save_states::SavedState,
     task_states::Task,
+    taskmessage::TaskMessage,
 };
 
 use iced::{
     Alignment, Element,
     Length::Fill,
-    Task as Command,
-    widget::{keyed_column, text, text_input},
+    Subscription, Task as Command, keyboard,
+    widget::{center, keyed_column, text, text_input},
+    window,
 };
 
 #[derive(Debug)]
@@ -24,8 +26,8 @@ pub struct State {
     pub input_value: String,
     pub filter: Filter,
     pub tasks: Vec<Task>,
-    dirty: bool,
-    saving: bool,
+    pub dirty: bool,
+    pub saving: bool,
 }
 
 impl Todos {

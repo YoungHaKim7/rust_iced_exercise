@@ -1,11 +1,21 @@
-use iced::widget::text_input;
+use iced::{
+    Alignment::Center,
+    Element,
+    Length::Fill,
+    widget::{button, checkbox, row, text, text_input},
+};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
+
+use super::{
+    global_fn::{delete_icon, edit_icon},
+    taskmessage::TaskMessage,
+};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Task {
     #[serde(default = "Uuid::new_v4")]
-    id: Uuid,
+    pub id: Uuid,
     description: String,
     pub completed: bool,
     #[serde(skip)]
@@ -23,7 +33,7 @@ impl Task {
         text_input::Id::new(format!("task-{i}"))
     }
 
-    fn new(description: String) -> Self {
+    pub fn new(description: String) -> Self {
         Task {
             id: Uuid::new_v4(),
             description,
@@ -32,7 +42,7 @@ impl Task {
         }
     }
 
-    fn update(&mut self, message: TaskMessage) {
+    pub fn update(&mut self, message: TaskMessage) {
         match message {
             TaskMessage::Completed(completed) => {
                 self.completed = completed;
@@ -52,7 +62,7 @@ impl Task {
         }
     }
 
-    fn view(&self, i: usize) -> Element<TaskMessage> {
+    pub fn view(&self, i: usize) -> Element<TaskMessage> {
         match &self.state {
             TaskState::Idle => {
                 let checkbox = checkbox(&self.description, self.completed)

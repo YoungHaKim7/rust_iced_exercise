@@ -12,8 +12,8 @@ use super::{filter::Filter, task_states::Task};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SavedState {
     pub input_value: String,
-    filter: Filter,
-    tasks: Vec<Task>,
+    pub filter: Filter,
+    pub tasks: Vec<Task>,
 }
 
 #[cfg(not(target_arch = "wasm32"))]
