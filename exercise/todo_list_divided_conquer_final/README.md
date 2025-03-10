@@ -1,5 +1,10 @@
-# Result
+# iced::widget
+# Macro column
+- https://docs.rs/iced/latest/iced/widget/macro.column.html
 
+<hr />
+
+# Result
 
 - nightly backtrace debugging
 

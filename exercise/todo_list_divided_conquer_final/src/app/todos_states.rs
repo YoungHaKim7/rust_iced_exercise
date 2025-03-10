@@ -111,19 +111,18 @@ impl Todos {
                 tasks,
                 ..
             }) => {
-                let title: Text<'_, Theme, Renderer> = text("todos")
+                let title = text("todos")
                     .width(Fill)
                     .size(100)
                     .color([0.5, 0.5, 0.5])
                     .align_x(Alignment::Center);
-                let input: TextInput<'_, Message> =
-                    text_input("What needs to be done?", input_value)
-                        .id("new-task")
-                        .on_input(Message::InputChanged)
-                        .on_submit(Message::CreateTask)
-                        .padding(15)
-                        .size(30)
-                        .align_x(Alignment::Center);
+                let input = text_input("What needs to be done?", input_value)
+                    .id("new-task")
+                    .on_input(Message::InputChanged)
+                    .on_submit(Message::CreateTask)
+                    .padding(15)
+                    .size(30)
+                    .align_x(Alignment::Center);
                 let controls = view_controls(tasks, *filter);
                 let filtered_tasks = tasks.iter().filter(|task| filter.matches(task));
                 let tasks: Element<_> = if filtered_tasks.count() > 0 {
@@ -148,10 +147,9 @@ impl Todos {
                         Filter::Completed => "You have not completed a task yet...",
                     })
                 };
-                let content: iced::widget::Column<'_, Message> =
-                    column![title, input, controls, tasks]
-                        .spacing(20)
-                        .max_width(800);
+                let content = iced::widget::column![title, input, controls, tasks]
+                    .spacing(20)
+                    .max_width(800);
                 center(content).into()
             }
         }
