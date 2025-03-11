@@ -1,0 +1,12 @@
+[package]
+name = "iced_test"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+iced = "0.13.1"
+png = "0.17.16"
+sha2 = "0.10.8"
+thiserror = "2.0.12"
+iced_renderer = { version = "0.13.1", git = "https://github.com/iced-rs/iced", rev = "9bfbd7c" }
+iced_runtime = { version = "0.13.1", git = "https://github.com/iced-rs/iced", rev = "9bfbd7c" }
