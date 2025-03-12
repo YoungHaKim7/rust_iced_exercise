@@ -197,22 +197,20 @@ impl Calculator {
             .width(Length::Fill)
             .spacing(2)
             .padding(8)
-            .align_items(Alignment::Center)
+            .align_x(Alignment::Center)
             .push(
                 Text::new(if self.shadow {
                     self.left.to_string()
                 } else {
                     format!("{} {} {}", self.left, self.sign, self.right)
-                })
-                .size(50)
-                .width(Length::Fill)
-                .horizontal_alignment(Horizontal::Right),
+                }), // .size(50)
+                    // .width(Length::Fill),
             )
             .into()
     }
 }
 
 fn main() -> iced::Result {
-    iced::application(Calculator::new, Calculator::update, Calculator::view)
+    iced::application(Calculator::title, Calculator::update, Calculator::view)
         .run_with(Calculator::new)
 }
