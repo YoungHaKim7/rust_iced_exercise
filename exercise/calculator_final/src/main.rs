@@ -4,7 +4,7 @@ use iced::widget::{Column, Text};
 use iced::{Alignment, Length};
 use iced::{Element, Settings};
 
-const LEN: u32 = 800;
+const LEN: f32 = 800.0;
 
 #[derive(Debug, Clone, Copy)]
 pub enum Message {
