@@ -28,6 +28,20 @@ struct Calculator {
 }
 
 impl Calculator {
+    fn new() -> (Self, Command<Message>) {
+        (
+            Self {
+                left: "0".into(),
+                ..Self::default()
+            },
+            Command::none(),
+        )
+    }
+
+    fn title(&self) -> String {
+        "简单计算器 ~ A Simple Calculator".into()
+    }
+
     fn calculate(&mut self) -> std::result::Result<(), &'static str> {
         self.shadow = true;
         self.left = match self.sign.as_str() {
@@ -71,27 +85,6 @@ impl Calculator {
         self.right.clear();
         self.shadow = false;
     }
-}
-
-impl Application for Calculator {
-    type Executor = executor::Default;
-    type Message = Message;
-    type Flags = ();
-
-    fn new(_flags: ()) -> (Self, Command<Message>) {
-        (
-            Self {
-                left: "0".into(),
-                ..Self::default()
-            },
-            Command::none(),
-        )
-    }
-
-    fn title(&self) -> String {
-        "简单计算器 ~ A Simple Calculator".into()
-    }
-
     fn update(&mut self, message: Message) -> Command<Message> {
         match message {
             Message::Num(n) => {
@@ -220,5 +213,6 @@ impl Application for Calculator {
 }
 
 fn main() -> iced::Result {
-    Calculator::run(Settings::default())
+    iced::application(Calculator::new, Calculator::update, Calculator::view)
+        .run_with(Calculator::new)
 }
