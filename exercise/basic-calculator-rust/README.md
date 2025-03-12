@@ -3,6 +3,11 @@
 
 - [(230108) How to use custom themes for Iced GUI library | Rust Programming Tutorial | Coding Informer](https://youtu.be/Bl02RY3FXJU?si=A8mBQEE_D8JrvZEx)
 
+- ㄷㅏ른거 살려보자
+  - https://github.com/Leak9867/simple-calculator
+
+<hr />
+
 
 ## A Simple Calculator Built with Iced GUI Library and Rust
 
