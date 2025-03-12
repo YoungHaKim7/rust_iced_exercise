@@ -3,6 +3,7 @@
   - https://github.com/iced-rs/iced/issues/2622
 
 - https://github.com/Leak9867/simple-calculator
+- https://leafheap.com/articles/iced-v0-12-tutorial-asynchronous-actions-with-commands
 
 # Result
 
