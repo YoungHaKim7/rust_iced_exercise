@@ -1,9 +1,4 @@
-use iced::Task as Command;
-use iced::alignment::Horizontal;
-use iced::executor;
-use iced::widget::{Column, Text};
-use iced::{Alignment, Length};
-use iced::{Application, Element, Settings, Theme};
+use iced::{Element, Task as Command, widget::Text};
 
 const LEN: f32 = 800.0;
 
@@ -192,21 +187,12 @@ impl Calculator {
     }
 
     fn view(&self) -> Element<'_, Message> {
-        Column::new()
-            .max_width(LEN)
-            .width(Length::Fill)
-            .spacing(2)
-            .padding(8)
-            .align_x(Alignment::Center)
-            .push(
-                Text::new(if self.shadow {
-                    self.left.to_string()
-                } else {
-                    format!("{} {} {}", self.left, self.sign, self.right)
-                }), // .size(50)
-                    // .width(Length::Fill),
-            )
-            .into()
+        let result = Text::new(if self.shadow {
+            self.left.to_string()
+        } else {
+            format!("{} {} {}", self.left, self.sign, self.right)
+        });
+        iced::widget::column![result].spacing(10).into()
     }
 }
 
