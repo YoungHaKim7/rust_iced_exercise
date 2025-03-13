@@ -1,3 +1,10 @@
+# gpu-arena_비교해서 보기(readme.rst)(정리 겁나게 잘됨 대박~~)
+- https://github.com/YoungHaKim7/rust_gui_app_in_summary?tab=readme-ov-file#gpu-arena
+- 오리지날은 여기
+  - https://github.com/Vincent-Therrien/gpu-arena
+
+<hr />
+
 # rust_iced_exercise
 
 https://docs.rs/iced/latest/iced/trait.Application.html
