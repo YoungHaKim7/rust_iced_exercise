@@ -5,6 +5,12 @@
 
 <hr />
 
+# iced 0.12.1로 연습
+- https://github.com/YoungHaKim7/rust_iced_0_12
+
+# rust iced공식 문서
+- https://docs.rs/iced/latest/iced/
+
 # rust_iced_exercise
 
 https://docs.rs/iced/latest/iced/trait.Application.html
