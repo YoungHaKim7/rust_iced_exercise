@@ -120,3 +120,17 @@ macro_rules! row {
 
 
 ```
+
+
+# neovide 설치파일인데 시도는 해보자 Ubuntu 왜 안되지?
+
+- https://neovide.dev/installation.html
+
+```bash
+sudo apt install -y curl \
+    gnupg ca-certificates git \
+    gcc-multilib g++-multilib cmake libssl-dev pkg-config \
+    libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev \
+    libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev \
+    libxcursor-dev
+```
