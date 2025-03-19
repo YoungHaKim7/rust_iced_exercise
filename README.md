@@ -134,3 +134,9 @@ sudo apt install -y curl \
     libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev \
     libxcursor-dev
 ```
+
+```bash
+# If you want to run Neovide on X11, you'll also need libxkbcommon-x11.
+# ArchLinux
+pacman -S libxkbcommon-x11
+```
