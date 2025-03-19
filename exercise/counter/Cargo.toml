@@ -33,4 +33,4 @@ overflow-checks = false
 strip = "debuginfo"
 
 [dependencies]
-iced = "0.13.1"
+iced = {version ="0.14.0-dev", git = "https://github.com/iced-rs/iced", rev = "892ac1c"}
