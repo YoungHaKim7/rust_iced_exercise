@@ -10,6 +10,12 @@
 
 <hr />
 
+# wayland해결해야 리눅스 됨
+- A wayland widgets implemented using rust and iced_rs
+  - https://github.com/Hankaji/Rarsv2
+
+<hr />
+
 # cargo info & tree
 
 - `cargo info`
