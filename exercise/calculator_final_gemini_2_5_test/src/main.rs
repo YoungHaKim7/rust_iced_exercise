@@ -1,7 +1,7 @@
 use iced::widget::{button, column, container, row, text, Button, Column, Container, Row, Text};
 use iced::{
     alignment, executor, Alignment, Application, Command, Element, Length, Settings, Theme,
-};BCCRTbccrt
+};
 
 // as it wasn't used and layout is handled by Iced's widgets alignment, executor,
 
