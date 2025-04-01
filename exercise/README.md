@@ -17,6 +17,20 @@
 - A wayland widgets implemented using rust and iced_rs
   - https://github.com/Hankaji/Rarsv2
 
+- 단서2 A compositor agnostic panel for wayland desktops
+  -  https://github.com/ryanabx/rbshell
+
+# Build instructions (Ubuntu/Fedora instructions)
+
+```bash
+# Install Dependencies (Ubuntu)
+sudo apt-get install -y libxkbcommon-dev
+# Install Dependencies (Fedora)
+sudo dnf install -y libxkbcommon-devel
+# Build
+cargo build
+```
+
 <hr />
 
 # cargo info & tree
