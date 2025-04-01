@@ -1,3 +1,9 @@
+# Iced Small Project
+- 차트 그리기
+  - https://crates.io/crates/plotters-iced
+
+<hr />
+
 # cargo info & tree
 
 - `cargo info`
