@@ -8,6 +8,9 @@
 - 온도 변환하는 프로그램
   - A temperature converter written in Rust https://github.com/Mikkel-T/temperature-converter
 
+- Interactive pathfinding visualization demonstrating optimal path discovery around polygonal obstacles.
+  - https://github.com/airstrike/pathfinder
+
 <hr />
 
 # wayland해결해야 리눅스 됨
