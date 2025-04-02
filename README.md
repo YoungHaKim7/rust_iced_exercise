@@ -11,6 +11,9 @@
 # rust iced공식 문서
 - https://docs.rs/iced/latest/iced/
 
+- 여기서 세부적으로 https://iced.zulipchat.com/
+  - 레딧글 https://www.reddit.com/r/learnrust/comments/mc83am/iced_gui_tutorial_or_guidelines_needed/?rdt=36795
+
 # rust_iced_exercise
 
 https://docs.rs/iced/latest/iced/trait.Application.html
