@@ -11,6 +11,9 @@
 - Interactive pathfinding visualization demonstrating optimal path discovery around polygonal obstacles.
   - https://github.com/airstrike/pathfinder
 
+- Conway's Game of Life 
+  - https://github.com/LeCyberDucky/conway
+
 <hr />
 
 # wayland해결해야 리눅스 됨
