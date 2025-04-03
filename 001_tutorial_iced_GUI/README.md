@@ -18,3 +18,6 @@
 [dependencies]
 iced = {version ="0.14.0-dev", git = "https://github.com/iced-rs/iced", rev = "5f00ae"}
 ```
+
+# button 크기 조절(Theme)
+- https://stackoverflow.com/questions/79140331/how-to-style-button-in-iced-0-12
