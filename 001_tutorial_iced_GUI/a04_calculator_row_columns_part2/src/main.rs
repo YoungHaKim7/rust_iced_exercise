@@ -4,12 +4,17 @@ use iced::widget::{Column, button, column, row, text};
 #[derive(Default)]
 struct Counter {
     value: i64,
+    result: i64,
+    oper: char,
 }
 
 #[derive(Debug, Clone, Copy)]
 enum Message {
-    Increment,
-    Decrement,
+    Plus,
+    Minus,
+    Multi,
+    Divide,
+    Eqaul,
     Zero,
     One,
     Two,
@@ -25,12 +30,15 @@ enum Message {
 impl Counter {
     fn update(&mut self, message: Message) {
         match message {
-            Message::Increment => {
-                self.value += 1;
-            }
-            Message::Decrement => {
+            Message::Multi => {}
+            Message::Divide => {}
+            Message::Minus => {
                 self.value -= 1;
             }
+            Message::Plus => {
+                self.value += 1;
+            }
+            Message::Eqaul => {}
             Message::Zero => self.value = 0,
             Message::One => self.value = 1,
             Message::Two => self.value = 2,
@@ -45,10 +53,17 @@ impl Counter {
     }
 
     fn view(&self) -> Column<Message> {
+        let screen = text(self.value).size(100);
+        let row_1 = row![
+            button("/").on_press(Message::Divide),
+            button("*").on_press(Message::Multi),
+            button("+").on_press(Message::Plus),
+            button("-").on_press(Message::Minus),
+            button("=").on_press(Message::Eqaul),
+        ];
         column![
-            text(self.value).size(50),
-            button("Increment").on_press(Message::Increment),
-            button("Decrement").on_press(Message::Decrement),
+            screen,
+            row_1,
             row![
                 button("7").on_press(Message::Seven),
                 button("8").on_press(Message::Eight),
@@ -69,7 +84,6 @@ impl Counter {
         .padding(20)
         .spacing(1)
         .align_x(Center)
-        .width(30)
     }
 }
 
